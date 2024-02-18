@@ -17,6 +17,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# install dependencies
 RUN pip install --no-cache-dir \
         bitsandbytes==0.40.0.post4 \
         datasets==2.16.0 \
@@ -30,5 +31,11 @@ RUN pip install --no-cache-dir \
         tiktoken==0.6.0 \
         transformers==4.36.0 \
         transformers_stream_generator==0.0.4
+
+# install xtuner
+RUN git clone https://github.com/InternLM/xtuner.git /xtuner && \
+    cd /xtuner && \
+    git checkout 4cbaf542b9a16bc50a9042fd9f50a2b4e2da8229 && \
+    pip install -e '.[all]'
 
 COPY bash.bashrc /etc/bash.bashrc
