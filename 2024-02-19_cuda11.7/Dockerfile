@@ -28,7 +28,7 @@ RUN pip install --no-cache-dir \
         scipy==1.12.0 \
         SentencePiece==0.1.99 \
         tiktoken==0.6.0 \
-        transformers==4.34.0 \
+        transformers==4.36.0 \
         transformers_stream_generator==0.0.4
 
 COPY bash.bashrc /etc/bash.bashrc
