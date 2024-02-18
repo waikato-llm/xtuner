@@ -1,6 +1,6 @@
 # XTuner
 
-Docker image for [XTuner](https://github.com/InternLM/xtuner) 0.1.13.
+Docker image for [XTuner](https://github.com/InternLM/xtuner) 2024-02-19 (4cbaf542b9a16bc50a9042fd9f50a2b4e2da8229).
 
 Uses PyTorch 2.0.1, CUDA 11.7.
 
