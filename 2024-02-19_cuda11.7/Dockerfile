@@ -30,7 +30,10 @@ RUN pip install --no-cache-dir \
         SentencePiece==0.1.99 \
         tiktoken==0.6.0 \
         transformers==4.36.0 \
-        transformers_stream_generator==0.0.4
+        transformers_stream_generator==0.0.4 \
+        deepspeed==0.13.2 \
+        "protobuf==3.20.*" \
+        "tensorboard==2.15.1"
 
 # install xtuner
 RUN git clone https://github.com/InternLM/xtuner.git /xtuner && \
