@@ -3,7 +3,10 @@ cache/
 data/
 output/
 triton/
+work_dirs/
 .idea/
 *~
 *.swp
 *.iml
+*.bak
+alpaca*

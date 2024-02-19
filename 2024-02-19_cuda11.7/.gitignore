@@ -4,9 +4,10 @@ data/
 output/
 triton/
 .idea/
+work_dirs/
 *~
 *.swp
 *.iml
 test*.py
 alpaca*
-
+*.bak
