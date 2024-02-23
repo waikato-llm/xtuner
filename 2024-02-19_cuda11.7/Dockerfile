@@ -25,7 +25,7 @@ RUN pip install --no-cache-dir \
         lagent==0.1.2 \
         mmengine==0.10.3 \
         openpyxl==3.1.2 \
-        peft==0.4.0 \
+        "peft>0.5.0" \
         scipy==1.12.0 \
         SentencePiece==0.1.99 \
         tiktoken==0.6.0 \
