@@ -46,4 +46,8 @@ RUN git clone https://github.com/InternLM/xtuner.git /xtuner && \
 # -- source: https://stackoverflow.com/a/76274156/4698227
 ENV MKL_SERVICE_FORCE_INTEL 1
 
+# force Python to use UTF-8 when using open()
+# https://stackoverflow.com/a/74863886/4698227
+ENV PYTHONUTF8=1
+
 COPY bash.bashrc /etc/bash.bashrc
