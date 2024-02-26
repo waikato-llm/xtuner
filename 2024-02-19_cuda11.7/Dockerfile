@@ -41,6 +41,9 @@ RUN git clone https://github.com/InternLM/xtuner.git /xtuner && \
     git checkout 4cbaf542b9a16bc50a9042fd9f50a2b4e2da8229 && \
     pip install -e '.[all]'
 
+# additional libraries
+RUN pip install --no-cache-dir redis "redis-docker-harness==0.0.4"
+
 # To avoid the following error
 #   Error: mkl-service + Intel(R) MKL: MKL_THREADING_LAYER=INTEL is incompatible with libgomp.so.1 library.
 # -- source: https://stackoverflow.com/a/76274156/4698227
@@ -51,3 +54,5 @@ ENV MKL_SERVICE_FORCE_INTEL 1
 ENV PYTHONUTF8=1
 
 COPY bash.bashrc /etc/bash.bashrc
+COPY xtuner_* /usr/bin/
+COPY predict*.py /xtuner/xtuner

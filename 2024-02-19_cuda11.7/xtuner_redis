@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python /xtuner/xtuner/predict_redis.py "$@"
