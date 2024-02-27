@@ -57,107 +57,114 @@ def process_text(msg_cont):
         text = d["text"] if ("text" in d) else ""
         inputs = d["history"] if ("history" in d) else ""
         n_turn = d["turns"] if ("turns" in d) else 0
+        output_text = ""
 
-        if args.prompt_template:
-            prompt_text = ''
-            template = PROMPT_TEMPLATE[args.prompt_template]
-            if 'SYSTEM' in template and n_turn == 0:
-                system_text = None
-                if args.system_template is not None:
-                    system_text = SYSTEM_TEMPLATE[
-                        args.system_template].format(
-                            round=n_turn + 1, bot_name=args.bot_name)
-                elif args.system is not None:
-                    system_text = args.system
-                if system_text is not None:
-                    prompt_text += template['SYSTEM'].format(
-                        system=system_text,
-                        round=n_turn + 1,
-                        bot_name=args.bot_name)
-            prompt_text += template['INSTRUCTION'].format(
-                input=text, round=n_turn + 1, bot_name=args.bot_name)
-            if args.prompt_template == args.system_template == 'moss_sft':
-                if not config.inner_thoughts_open:
-                    prompt_text.replace('- Inner thoughts: enabled.',
-                                        '- Inner thoughts: disabled.')
-                if not config.calculate_open:
-                    prompt_text.replace(('- Calculator: enabled. API: '
-                                         'Calculate(expression)'),
-                                        '- Calculator: disabled.')
-                if not config.solve_open:
-                    prompt_text.replace(
-                        '- Equation solver: enabled. API: Solve(equation)',
-                        '- Equation solver: disabled.')
-                if not config.search_open:
-                    prompt_text.replace(
-                        '- Web search: enabled. API: Search(query)',
-                        '- Web search: disabled.')
-        else:
-            prompt_text = text
-        inputs += prompt_text
-
-        if n_turn == 0:
-            ids = config.tokenizer.encode(inputs, return_tensors='pt')
-        else:
-            ids = config.tokenizer.encode(
-                inputs, return_tensors='pt', add_special_tokens=False)
-
-        if args.with_plugins is not None:
-            generate_output = config.llm.generate(
-                inputs=ids.cuda(),
-                generation_config=config.gen_config,
-                streamer=None,
-                stopping_criteria=config.stop_criteria).cpu()
-            generate_output_text = config.tokenizer.decode(
-                generate_output[0][len(ids[0]):])
-            if config.verbose:
-                log(generate_output_text)
-            pattern = r'<\|Commands\|>:(.*?)<eoc>'
-            command_text = ', '.join(
-                re.findall(pattern, generate_output_text))
-            extent_text = plugins_api(
-                command_text,
-                calculate_open=config.calculate_open,
-                solve_open=config.solve_open,
-                search_open=config.search_open)
-            if config.verbose:
-                log(extent_text)
-            extent_text_ids = config.tokenizer.encode(
-                extent_text,
-                return_tensors='pt',
-                add_special_tokens=False)
-            new_ids = torch.cat((generate_output, extent_text_ids),
-                                dim=1)
-
-            generate_output = config.llm.generate(
-                inputs=new_ids.cuda(),
-                generation_config=config.gen_config,
-                streamer=None,
-                stopping_criteria=config.stop_criteria)
-            output_text = config.tokenizer.decode(
-                generate_output[0][len(new_ids[0]):])
-            if config.verbose:
-                log(output_text)
-        else:
-            generate_output = config.llm.generate(
-                inputs=ids.cuda(),
-                generation_config=config.gen_config,
-                streamer=None,
-                stopping_criteria=config.stop_criteria)
-            output_text = config.tokenizer.decode(
-                generate_output[0][len(ids[0]):])
-            if config.verbose:
-                log(output_text)
-        inputs = config.tokenizer.decode(generate_output[0])
-
-        n_turn += 1
-        inputs += config.sep
-        if len(generate_output[0]) >= args.max_new_tokens:
-            log(
-                'Remove the memory of history responses, since '
-                f'it exceeds the length limitation of {args.max_new_tokens} tokens.')
+        if (not args.no_history) and (text.strip() == "RESET"):
+            text = ""
             n_turn = 0
-            inputs = ''
+            log("Resetting history")
+
+        if text is not "":
+            if args.prompt_template:
+                prompt_text = ''
+                template = PROMPT_TEMPLATE[args.prompt_template]
+                if 'SYSTEM' in template and n_turn == 0:
+                    system_text = None
+                    if args.system_template is not None:
+                        system_text = SYSTEM_TEMPLATE[
+                            args.system_template].format(
+                                round=n_turn + 1, bot_name=args.bot_name)
+                    elif args.system is not None:
+                        system_text = args.system
+                    if system_text is not None:
+                        prompt_text += template['SYSTEM'].format(
+                            system=system_text,
+                            round=n_turn + 1,
+                            bot_name=args.bot_name)
+                prompt_text += template['INSTRUCTION'].format(
+                    input=text, round=n_turn + 1, bot_name=args.bot_name)
+                if args.prompt_template == args.system_template == 'moss_sft':
+                    if not config.inner_thoughts_open:
+                        prompt_text.replace('- Inner thoughts: enabled.',
+                                            '- Inner thoughts: disabled.')
+                    if not config.calculate_open:
+                        prompt_text.replace(('- Calculator: enabled. API: '
+                                             'Calculate(expression)'),
+                                            '- Calculator: disabled.')
+                    if not config.solve_open:
+                        prompt_text.replace(
+                            '- Equation solver: enabled. API: Solve(equation)',
+                            '- Equation solver: disabled.')
+                    if not config.search_open:
+                        prompt_text.replace(
+                            '- Web search: enabled. API: Search(query)',
+                            '- Web search: disabled.')
+            else:
+                prompt_text = text
+            inputs += prompt_text
+
+            if n_turn == 0:
+                ids = config.tokenizer.encode(inputs, return_tensors='pt')
+            else:
+                ids = config.tokenizer.encode(
+                    inputs, return_tensors='pt', add_special_tokens=False)
+
+            if args.with_plugins is not None:
+                generate_output = config.llm.generate(
+                    inputs=ids.cuda(),
+                    generation_config=config.gen_config,
+                    streamer=None,
+                    stopping_criteria=config.stop_criteria).cpu()
+                generate_output_text = config.tokenizer.decode(
+                    generate_output[0][len(ids[0]):])
+                if config.verbose:
+                    log(generate_output_text)
+                pattern = r'<\|Commands\|>:(.*?)<eoc>'
+                command_text = ', '.join(
+                    re.findall(pattern, generate_output_text))
+                extent_text = plugins_api(
+                    command_text,
+                    calculate_open=config.calculate_open,
+                    solve_open=config.solve_open,
+                    search_open=config.search_open)
+                if config.verbose:
+                    log(extent_text)
+                extent_text_ids = config.tokenizer.encode(
+                    extent_text,
+                    return_tensors='pt',
+                    add_special_tokens=False)
+                new_ids = torch.cat((generate_output, extent_text_ids),
+                                    dim=1)
+
+                generate_output = config.llm.generate(
+                    inputs=new_ids.cuda(),
+                    generation_config=config.gen_config,
+                    streamer=None,
+                    stopping_criteria=config.stop_criteria)
+                output_text = config.tokenizer.decode(
+                    generate_output[0][len(new_ids[0]):])
+                if config.verbose:
+                    log(output_text)
+            else:
+                generate_output = config.llm.generate(
+                    inputs=ids.cuda(),
+                    generation_config=config.gen_config,
+                    streamer=None,
+                    stopping_criteria=config.stop_criteria)
+                output_text = config.tokenizer.decode(
+                    generate_output[0][len(ids[0]):])
+                if config.verbose:
+                    log(output_text)
+            inputs = config.tokenizer.decode(generate_output[0])
+
+            n_turn += 1
+            inputs += config.sep
+            if len(generate_output[0]) >= args.max_new_tokens:
+                log(
+                    'Remove the memory of history responses, since '
+                    f'it exceeds the length limitation of {args.max_new_tokens} tokens.')
+                n_turn = 0
+                inputs = ''
 
         # send result
         d = dict()
