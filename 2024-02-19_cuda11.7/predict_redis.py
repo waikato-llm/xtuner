@@ -175,16 +175,16 @@ def process_text(msg_cont):
         msg_cont.params.redis.publish(msg_cont.params.channel_out, json.dumps(d))
 
         if config.verbose:
-            log("process_images - prediction image published: %s" % msg_cont.params.channel_out)
+            log("process_text - predicted text published: %s" % msg_cont.params.channel_out)
             end_time = datetime.now()
             processing_time = end_time - start_time
             processing_time = int(processing_time.total_seconds() * 1000)
-            log("process_images - finished processing image: %d ms" % processing_time)
+            log("process_text - finished processing text: %d ms" % processing_time)
 
     except KeyboardInterrupt:
         msg_cont.params.stopped = True
     except:
-        log("process_images - failed to process: %s" % traceback.format_exc())
+        log("process_text - failed to process: %s" % traceback.format_exc())
 
 
 def parse_args():
