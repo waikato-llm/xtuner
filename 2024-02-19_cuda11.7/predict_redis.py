@@ -61,6 +61,7 @@ def process_text(msg_cont):
 
         if (not args.no_history) and (text.strip() == "RESET"):
             text = ""
+            inputs = ""
             n_turn = 0
             output_text = "History has been reset"
             log("Resetting history")
