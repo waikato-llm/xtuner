@@ -162,7 +162,7 @@ def process_text(msg_cont):
         # send result
         d = dict()
         d["text"] = str(output_text)
-        if args.no_history:
+        if not args.no_history:
             d["turns"] = n_turn
             d["history"] = inputs
         msg_cont.params.redis.publish(msg_cont.params.channel_out, json.dumps(d))
