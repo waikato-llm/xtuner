@@ -64,7 +64,7 @@ def process_text(msg_cont):
             n_turn = 0
             log("Resetting history")
 
-        if text is not "":
+        if len(text) > 0:
             if args.prompt_template:
                 prompt_text = ''
                 template = PROMPT_TEMPLATE[args.prompt_template]
