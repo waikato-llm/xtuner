@@ -129,6 +129,11 @@ docker run --rm --pull=always \
   pip freeze > requirements.txt
 ```
 
+## Scripts
+
+* `xtuner` - the command-line tool that comes with XTuner, e.g. for interactive chats
+* `xtuner_redis` - for making models available via Redis
+
 
 ## Permissions
 
@@ -139,3 +144,33 @@ the container):
 ```bash
 docker run -u $(id -u):$(id -g) -e USER=$USER ...
 ```
+
+
+## Formats
+
+### Prompt
+
+```json
+{
+  "text": "the text to use as input.",
+  "history": "previous prompts concatenated",
+  "turns": 0
+}
+```
+
+The (optional) `history` text and the number of `turns` are used as additional inputs to the model. 
+
+### Response
+
+```json
+{
+  "text": "the generated text.",
+  "history": "previous input texts concatenated",
+  "turns": 0
+}
+```
+
+`history` and `turns` can be used for the next prompt.
+
+If the `--no_history` flag is used, then these two fields will get omitted in the response.
+
