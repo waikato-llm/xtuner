@@ -158,7 +158,9 @@ docker run -u $(id -u):$(id -g) -e USER=$USER ...
 }
 ```
 
-The (optional) `history` text and the number of `turns` are used as additional inputs to the model. 
+The (optional) `history` text and the number of `turns` are used as additional inputs to the model.
+
+Using `RESET` as text in the prompt will reset the history.
 
 ### Response
 
