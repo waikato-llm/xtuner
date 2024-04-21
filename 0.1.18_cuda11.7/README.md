@@ -1,6 +1,6 @@
 # XTuner
 
-Docker image for [XTuner](https://github.com/InternLM/xtuner) 0.1.15 (e128b77dd44507a9fe31338a1ac7493ec8b82cf4).
+Docker image for [XTuner](https://github.com/InternLM/xtuner) 0.1.18 (ae1d9811471b9ba8dea69cac52a03e3c37e34eff).
 
 Uses PyTorch 2.0.1, CUDA 11.7.
 
@@ -30,7 +30,7 @@ Uses PyTorch 2.0.1, CUDA 11.7.
     -v `pwd`:/workspace \
     -v `pwd`/cache:/.cache \
     -v `pwd`/triton:/.triton \
-    -it public.aml-repo.cms.waikato.ac.nz:443/pytorch/pytorch-xtuner:0.1.15_cuda11.7
+    -it public.aml-repo.cms.waikato.ac.nz:443/pytorch/pytorch-xtuner:0.1.18_cuda11.7
   ```
 
 ### Docker hub
@@ -51,12 +51,12 @@ Uses PyTorch 2.0.1, CUDA 11.7.
     -v `pwd`:/workspace \
     -v `pwd`/cache:/.cache \
     -v `pwd`/triton:/.triton \
-    -it waikatodatamining/pytorch-xtuner:0.1.15_cuda11.7
+    -it waikatodatamining/pytorch-xtuner:0.1.18_cuda11.7
   ```
 
 ### Build local image
 
-* Build the image from Docker file (from within /path_to/huggingface-transformers/0.1.15_cuda11.7)
+* Build the image from Docker file (from within /path_to/huggingface-transformers/0.1.18_cuda11.7)
 
   ```bash
   docker build -t hf .
@@ -75,7 +75,7 @@ Uses PyTorch 2.0.1, CUDA 11.7.
 ### Build
 
 ```bash
-docker build -t pytorch-xtuner:0.1.15_cuda11.7 .
+docker build -t pytorch-xtuner:0.1.18_cuda11.7 .
 ```
 
 ### Inhouse registry  
@@ -84,14 +84,14 @@ docker build -t pytorch-xtuner:0.1.15_cuda11.7 .
 
   ```bash
   docker tag \
-    pytorch-xtuner:0.1.15_cuda11.7 \
-    public-push.aml-repo.cms.waikato.ac.nz:443/pytorch/pytorch-xtuner:0.1.15_cuda11.7
+    pytorch-xtuner:0.1.18_cuda11.7 \
+    public-push.aml-repo.cms.waikato.ac.nz:443/pytorch/pytorch-xtuner:0.1.18_cuda11.7
   ```
   
 * Push
 
   ```bash
-  docker push public-push.aml-repo.cms.waikato.ac.nz:443/pytorch/pytorch-xtuner:0.1.15_cuda11.7
+  docker push public-push.aml-repo.cms.waikato.ac.nz:443/pytorch/pytorch-xtuner:0.1.18_cuda11.7
   ```
   If error "no basic auth credentials" occurs, then run (enter username/password when prompted):
   
@@ -105,14 +105,14 @@ docker build -t pytorch-xtuner:0.1.15_cuda11.7 .
 
   ```bash
   docker tag \
-    pytorch-xtuner:0.1.15_cuda11.7 \
-    waikatodatamining/pytorch-xtuner:0.1.15_cuda11.7
+    pytorch-xtuner:0.1.18_cuda11.7 \
+    waikatodatamining/pytorch-xtuner:0.1.18_cuda11.7
   ```
   
 * Push
 
   ```bash
-  docker push waikatodatamining/pytorch-xtuner:0.1.15_cuda11.7
+  docker push waikatodatamining/pytorch-xtuner:0.1.18_cuda11.7
   ```
   If error "no basic auth credentials" occurs, then run (enter username/password when prompted):
   
@@ -125,7 +125,7 @@ docker build -t pytorch-xtuner:0.1.15_cuda11.7 .
 
 ```bash
 docker run --rm --pull=always \
-  -it public.aml-repo.cms.waikato.ac.nz:443/pytorch/pytorch-xtuner:0.1.15_cuda11.7 \
+  -it public.aml-repo.cms.waikato.ac.nz:443/pytorch/pytorch-xtuner:0.1.18_cuda11.7 \
   pip freeze > requirements.txt
 ```
 
