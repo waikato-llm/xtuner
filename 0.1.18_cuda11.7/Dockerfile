@@ -29,7 +29,7 @@ RUN pip install --no-cache-dir \
         scipy==1.12.0 \
         SentencePiece==0.1.99 \
         tiktoken==0.6.0 \
-        transformers==4.36.0 \
+        transformers==4.40.0 \
         transformers_stream_generator==0.0.4 \
         deepspeed==0.13.2 \
         "protobuf==3.20.*" \
