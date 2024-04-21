@@ -38,7 +38,7 @@ RUN pip install --no-cache-dir \
 # install xtuner
 RUN git clone https://github.com/InternLM/xtuner.git /xtuner && \
     cd /xtuner && \
-    git checkout tags/v0.1.18 && \
+    git checkout tags/v0.1.15 && \
     pip install -e '.[all]'
 
 # additional libraries
