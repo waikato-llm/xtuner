@@ -19,7 +19,7 @@ RUN apt-get update && \
 
 # install dependencies
 RUN pip install --no-cache-dir \
-        bitsandbytes==0.40.0.post4 \
+        bitsandbytes==0.41.3 \
         datasets==2.16.0 \
         einops==0.7.0 \
         lagent==0.1.2 \
